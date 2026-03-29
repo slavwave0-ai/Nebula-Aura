@@ -1,0 +1,43 @@
+[package]
+name = "nebula-aura"
+version = "1.0.0"
+edition = "2021"
+authors = ["Nebula Audio"]
+license = "MIT"
+description = "Nebula Aura: sci-fi synthwave exciter plugin"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+
+[[bin]]
+name = "bundle"
+path = "src/bin/bundle.rs"
+
+[features]
+default = ["clap", "vst3"]
+clap = ["nih_plug/clap"]
+vst3 = ["nih_plug/vst3"]
+
+[dependencies]
+nih_plug = { git = "https://github.com/robbert-vdh/nih-plug.git", rev = "f8f5262" }
+nih_plug_egui = { git = "https://github.com/robbert-vdh/nih-plug.git", rev = "f8f5262" }
+egui = "0.27"
+atomic_float = "1.1"
+realfft = "3.3"
+rustfft = "6.2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+rand = "0.8"
+nih_plug_xtask = { git = "https://github.com/robbert-vdh/nih-plug.git", rev = "f8f5262" }
+
+[dev-dependencies]
+approx = "0.5"
+
+[profile.release]
+lto = "fat"
+codegen-units = 1
+panic = "abort"
+strip = "debuginfo"
+
+[profile.release.package."*"]
+opt-level = 3
